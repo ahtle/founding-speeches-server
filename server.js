@@ -30,6 +30,7 @@ app.get('/', (req, res) => {
 // get all presidents
 app.get('/presidents', (req, res) => {
     Presidents.find().exec().then(presidents => {
+        console.log(presidents);
         res.status(200).json(presidents);
     }).catch(err => {
         console.error(err);
@@ -63,7 +64,10 @@ app.post('/presidents', (req, res) => {
             speeches: []
         };
 
-        return Presidents.create(newPres).then(pres => {res.status(201).json(pres)})
+        return Presidents.create(newPres).then(pres => {
+                console.log(newPres);
+                res.status(201).json(pres);
+            })
             .catch(err => {
                 console.error(err);
                 res.status(500).json({error: 'something went wrong'});
@@ -73,6 +77,7 @@ app.post('/presidents', (req, res) => {
 
 // catch all
 app.get('*', (req, res) => {
+    console.log('server message: not found')
     res.json({message: 'not found'});
 });
 
