@@ -1,0 +1,11 @@
+language: node_js
+node_js: node
+services:
+- mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: Ve8xhwIkXmdLHADVivo73aB6OkVMKJ81MiFZogEsWAXfOxIo6cD3jhnT5dG30q+6iw15Z3QFfugtrthORkon8hGZ1WOKN/6Z49bHIlwVBp10YQKu/XOMMM09KzaG9B7aq7hyTvPcceA7URVx+alFMeksENXLZ65AxK8whs3rzFZJeLu52SWo5IBe0d5QIlrR6vsDFs2e6nsC67xpvSKYctuhvRCczFJBHKmWKDSo8RUFTI/9YpHO+R9W8Yz6sTKGGfUwlykMwEmRBPcAW1Lnd1L7NfTbwHTIUL1JNF+6+o3xHhIsUvefNGadwr+z1P7yKF+47wtthxTRUQqNQA9jj2ZK1uzgKWasCD4ZWbCRlXg9AtcyJH3G0Eb3IMZzYwmEGGg7KOFJk5MkCy2ZfmBSR1T12t55xS5CUFSqou/CRnK7CnOj7eaK2wCREcEY1xxfs8nUv3TuQNKRIJV2XTEivlLB2byVUPhQ08uISFmzb6xUMnPugwd+a3pGCyVmcmIBc21OztNHXSxFVZjKxiV/IkZva1o1icd9hh0RqLJBZiwvajGnIndxsKsdYl1THb/zXaniQyL1+w8tSBqLLglWXNK363GxEs9Qhh/+iKdlQrnRqDFp5WAMRk+wsoywj4P2FMRhDC1WZ4n2nLD6fMhleOR3Sogyxkbzu/Lyd3W4R60=
+  app: founding-speeches-server
+  on:
+    repo: anhhtle/founding-speeches-server
