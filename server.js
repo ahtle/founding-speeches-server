@@ -65,7 +65,7 @@ app.post('/presidents', (req, res) => {
         };
 
         return Presidents.create(newPres).then(pres => {
-                console.log(newPres);
+                console.log(pres);
                 res.status(201).json(pres);
             })
             .catch(err => {
@@ -74,6 +74,53 @@ app.post('/presidents', (req, res) => {
             });
     } // end validated
 })
+
+// get all president transcripts
+app.get('/transcripts/:presId', (req, res) => {
+    Transcripts.find({presId: req.params.presId}).sort({date: -1}).exec().then(transcripts => {
+        console.log(transcripts);
+        res.status(200).json(transcripts);
+    }).catch(err => {
+        console.error(err);
+        res.status(500).json({error: 'something went wrong'});
+    });
+})
+
+// post new transcript
+function validateTranscriptPost(data){
+    const requiredFields = ['presId', 'transcriptId', 'date', 'title', 'text'];
+    for(let i = 0; i < requiredFields.length; i++){
+        const field = requiredFields[i];
+        if(!(field in data.body)){
+            console.error(`missing '${field}' in request body`);
+            return false;
+        }
+    }
+    return true;
+};
+
+app.post('/transcripts', (req, res) => {
+    if(validateTranscriptPost(req)){
+        const newTranscript = {
+            presId: req.body.presId,
+            transcriptId: req.body.transcriptId,
+            date: req.body.date,
+            title: req.body.title,
+            text: req.body.text
+        }
+
+        return Transcripts.create(newTranscript).then(transcript => {
+                console.log(transcript);
+                res.status(201).json(transcript);
+            })
+            .catch(err => {
+                console.error(err);
+                res.status(500).json({error: 'something went wrong'});
+            });
+    }
+});
+
+
 
 // catch all
 app.get('*', (req, res) => {
