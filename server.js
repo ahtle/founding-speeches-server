@@ -88,7 +88,7 @@ app.get('/transcripts/:presId', (req, res) => {
 
 // post new transcript
 function validateTranscriptPost(data){
-    const requiredFields = ['presId', 'transcriptId', 'date', 'title', 'text'];
+    const requiredFields = ['presId', 'date', 'title', 'text'];
     for(let i = 0; i < requiredFields.length; i++){
         const field = requiredFields[i];
         if(!(field in data.body)){
@@ -103,7 +103,6 @@ app.post('/transcripts', (req, res) => {
     if(validateTranscriptPost(req)){
         const newTranscript = {
             presId: req.body.presId,
-            transcriptId: req.body.transcriptId,
             date: req.body.date,
             title: req.body.title,
             text: req.body.text
