@@ -16,13 +16,13 @@ const PersonalityInsightsV3 = require('watson-developer-cloud/personality-insigh
 const app = express();
 app.use(morgan('common'));
 app.use(bodyParser.json());
-//app.use(cors());
+app.use(cors());
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 
 mongoose.Promise = global.Promise;
 
@@ -134,6 +134,11 @@ app.get('*', (req, res) => {
 });
 
 /************** get Watson profile *****************/
+app.get('/watson', (req, res) => {
+    console.log('watson get working');
+    res.status(200).json({message: 'watson get ok'});
+});
+
 app.post('/watson', (req, res) => {
     console.log(req.body);
     res.status(200).json({message: 'watson post ok'});
