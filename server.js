@@ -129,29 +129,30 @@ app.get('*', (req, res) => {
 /************** get Watson profile *****************/
 app.post('/watson', (req, res) => {
 
-    var personality_insights = new PersonalityInsightsV3({
-        username: '507f3d3b-10a0-4cba-a409-423da0bf5915',
-        password: '8cSh3iwYj8l1',
-        version_date: '2016-10-20'
-    });
+    res.status(200).json({ok: req.body});
+    // var personality_insights = new PersonalityInsightsV3({
+    //     username: '507f3d3b-10a0-4cba-a409-423da0bf5915',
+    //     password: '8cSh3iwYj8l1',
+    //     version_date: '2016-10-20'
+    // });
 
-    var params = {
-        content_items: [req.body],
-        headers: {
-            'accept-language': 'en',
-            'accept': 'application/json'
-        }
-    };
+    // var params = {
+    //     content_items: [req.body],
+    //     headers: {
+    //         'accept-language': 'en',
+    //         'accept': 'application/json'
+    //     }
+    // };
 
-    return personality_insights.profile(params, (err, response) => {
-        if (err)
-            console.error(err);
-        else{
-            let output = JSON.stringify(response, null, 2);
-            console.log(output);
-            return res.status(200).send(output);
-        }     
-    });
+    // return personality_insights.profile(params, (err, response) => {
+    //     if (err)
+    //         console.error(err);
+    //     else{
+    //         let output = JSON.stringify(response, null, 2);
+    //         console.log(output);
+    //         return res.status(200).send(output);
+    //     }     
+    // });
 
 });
 
