@@ -127,21 +127,17 @@ app.post('/transcripts', (req, res) => {
     }
 });
 
-// catch all
-app.get('*', (req, res) => {
-    console.log('server message: not found')
-    res.json({message: 'not found'});
-});
 
 /************** get Watson profile *****************/
 app.get('/watson', (req, res) => {
-    console.log('watson get working');
     res.status(200).json({message: 'watson get ok'});
 });
+
 
 app.post('/watson', (req, res) => {
     console.log(req.body);
     res.status(200).json({message: 'watson post ok'});
+
     // var personality_insights = new PersonalityInsightsV3({
     //     username: '507f3d3b-10a0-4cba-a409-423da0bf5915',
     //     password: '8cSh3iwYj8l1',
@@ -168,6 +164,11 @@ app.post('/watson', (req, res) => {
 
 });
 
+// catch all
+app.get('*', (req, res) => {
+    console.log('server message: not found')
+    res.json({message: 'not found'});
+});
 
 //****************** server ***************/
 let server;
