@@ -11,6 +11,7 @@ const path = require('path');
 const {DATABASE_URL, PORT} = require('./config');
 const {Presidents} = require('./models/presidents.model');
 const {Transcripts} = require('./models/transcripts.model');
+const PersonalityInsightsV3 = require('watson-developer-cloud/personality-insights/v3');
 
 const app = express();
 app.use(morgan('common'));
@@ -77,7 +78,7 @@ app.post('/presidents', (req, res) => {
 
 // get all president transcripts
 app.get('/transcripts/:presId', (req, res) => {
-    Transcripts.find({presId: req.params.presId}).sort({date: -1}).exec().then(transcripts => {
+    Transcripts.find({presId: req.params.presId}).sort({date: 1}).exec().then(transcripts => {
         console.log(transcripts);
         res.status(200).json(transcripts);
     }).catch(err => {
@@ -119,13 +120,41 @@ app.post('/transcripts', (req, res) => {
     }
 });
 
-
-
 // catch all
 app.get('*', (req, res) => {
     console.log('server message: not found')
     res.json({message: 'not found'});
 });
+
+/************** get Watson profile *****************/
+app.post('/watson', (req, res) => {
+
+    var personality_insights = new PersonalityInsightsV3({
+        username: '507f3d3b-10a0-4cba-a409-423da0bf5915',
+        password: '8cSh3iwYj8l1',
+        version_date: '2016-10-20'
+    });
+
+    var params = {
+        content_items: [req.body],
+        headers: {
+            'accept-language': 'en',
+            'accept': 'application/json'
+        }
+    };
+
+    return personality_insights.profile(params, (err, response) => {
+        if (err)
+            console.error(err);
+        else{
+            let output = JSON.stringify(response, null, 2);
+            console.log(output);
+            return res.status(200).send(output);
+        }     
+    });
+
+});
+
 
 //****************** server ***************/
 let server;
