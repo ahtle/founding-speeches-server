@@ -18,12 +18,6 @@ app.use(morgan('common'));
 app.use(bodyParser.json());
 app.use(cors());
 
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-// });
-
 mongoose.Promise = global.Promise;
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -85,7 +79,7 @@ app.post('/presidents', (req, res) => {
 
 // get all president transcripts
 app.get('/transcripts/:presId', (req, res) => {
-    Transcripts.find({presId: req.params.presId}).sort({date: 1}).exec().then(transcripts => {
+    Transcripts.find({presId: req.params.presId}).sort({date: -1}).exec().then(transcripts => {
         console.log(transcripts);
         res.status(200).json(transcripts);
     }).catch(err => {
@@ -129,38 +123,46 @@ app.post('/transcripts', (req, res) => {
 
 
 /************** get Watson profile *****************/
-app.get('/watson', (req, res) => {
-    res.status(200).json({message: 'watson get ok'});
-});
-
 
 app.post('/watson', (req, res) => {
-    console.log(req.body);
-    res.status(200).json({message: 'watson post ok'});
+    var personality_insights = new PersonalityInsightsV3({
+        username: '507f3d3b-10a0-4cba-a409-423da0bf5915',
+        password: '8cSh3iwYj8l1',
+        version_date: '2016-10-20'
+    });
 
-    // var personality_insights = new PersonalityInsightsV3({
-    //     username: '507f3d3b-10a0-4cba-a409-423da0bf5915',
-    //     password: '8cSh3iwYj8l1',
-    //     version_date: '2016-10-20'
-    // });
+    var params = {
+        content_items: [req.body.text],
+        headers: {
+            'accept-language': 'en',
+            'accept': 'application/json'
+        }
+    };
 
-    // var params = {
-    //     content_items: [req.body],
-    //     headers: {
-    //         'accept-language': 'en',
-    //         'accept': 'application/json'
-    //     }
-    // };
+    return personality_insights.profile(params, (err, response) => {
+        if (err)
+            console.error(err);
+        else{
+            //let output = JSON.stringify(response, null, 2);
+            let personality = response.personality.map((obj) => {
+                return {"name": obj.name, "percentile": (100*obj.percentile).toFixed(0)}
+            });
+            let needs = response.needs.map((obj) => {
+                return {"name": obj.name, "percentile": (100*obj.percentile).toFixed(0)}
+            });
+            let values = response.values.map((obj) => {
+                return {"name": obj.name, "percentile": (100*obj.percentile).toFixed(0)}
+            });
 
-    // return personality_insights.profile(params, (err, response) => {
-    //     if (err)
-    //         console.error(err);
-    //     else{
-    //         let output = JSON.stringify(response, null, 2);
-    //         console.log(output);
-    //         return res.status(200).send(output);
-    //     }     
-    // });
+            let outputFormatted = {
+                personality: personality,
+                needs: needs,
+                values: values
+            }
+
+            return res.status(200).send(outputFormatted);
+        }     
+    });
 
 });
 
