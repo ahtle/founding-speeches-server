@@ -78,7 +78,7 @@ app.post('/api/v1/presidents', (req, res) => {
 })
 
 // get all president transcripts
-app.get('api/v1/transcripts/:presId', (req, res) => {
+app.get('/api/v1/transcripts/:presId', (req, res) => {
     Transcripts.find({presId: req.params.presId}).sort({date: -1}).exec().then(transcripts => {
         console.log(transcripts);
         res.status(200).json(transcripts);
@@ -163,9 +163,9 @@ app.post('/api/v1/watson', (req, res) => {
 
             let outputFormatted = {
                 word_count: response.word_count,
-                personality: personality.sort((a,b) => {return b.percentile - a.percentile}),
-                needs: needs.sort((a,b) => {return b.percentile - a.percentile}),
-                values: values.sort((a,b) => {return b.percentile - a.percentile})
+                personality: personality.sort((a,b) => {return a.percentile - b.percentile}),
+                needs: needs.sort((a,b) => {return a.percentile - b.percentile}),
+                values: values.sort((a,b) => {return a.percentile - b.percentile})
             }
 
             return res.status(200).send(outputFormatted);
