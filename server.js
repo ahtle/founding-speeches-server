@@ -62,8 +62,7 @@ app.post('/api/v1/presidents', (req, res) => {
             endYear: req.body.endYear,
             thumbnail: req.body.thumbnail || '',
             banner: req.body.banner || '',
-            snippet: req.body.snippet || '',
-            speeches: []
+            snippet: req.body.snippet || ''
         };
 
         return Presidents.create(newPres).then(pres => {

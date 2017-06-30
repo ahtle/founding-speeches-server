@@ -7,8 +7,7 @@ const presSchema = mongoose.Schema({
     endYear: {type: Number, required: true},
     thumbnail: String,
     banner: String,
-    snippet: String,
-    speeches: [{type: Number, ref: 'Transcripts'}]
+    snippet: String
 });
 
 const Presidents = mongoose.model('Presidents', presSchema);
