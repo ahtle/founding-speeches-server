@@ -31,8 +31,7 @@ app.get('/', (req, res) => {
 
 // get all presidents
 app.get('/api/v1/presidents', (req, res) => {
-    Presidents.find().exec().then(presidents => {
-        console.log(presidents);
+    Presidents.find().sort({presId: 1}).exec().then(presidents => {
         res.status(200).json(presidents);
     }).catch(err => {
         console.error(err);
@@ -79,7 +78,6 @@ app.post('/api/v1/presidents', (req, res) => {
 // get all president transcripts
 app.get('/api/v1/transcripts/:presId', (req, res) => {
     Transcripts.find({presId: req.params.presId}).sort({date: -1}).exec().then(transcripts => {
-        console.log(transcripts);
         res.status(200).json(transcripts);
     }).catch(err => {
         console.error(err);
@@ -221,3 +219,5 @@ if(require.main === module){
 };
 
 module.exports = {app, runServer, closeServer};
+
+// mongoimport --db founding-speeches --collection presidents --drop --file ~/Desktop/president_seed.json --host ds137370.mlab.com --port 37370  -u anhhtle -p password1
