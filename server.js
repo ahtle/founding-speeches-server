@@ -41,7 +41,7 @@ app.get('/api/v1/presidents', (req, res) => {
 
 // post new president
 function validatePost(data){
-    const requiredFields = ['presId', 'name', 'startYear', 'endYear'];
+    const requiredFields = ['presId', 'name', 'startYear', 'party'];
     for(let i = 0; i < requiredFields.length; i++){
         const field = requiredFields[i];
         if(!(field in data.body)){
@@ -58,7 +58,8 @@ app.post('/api/v1/presidents', (req, res) => {
             presId: req.body.presId,
             name: req.body.name,
             startYear: req.body.startYear,
-            endYear: req.body.endYear,
+            endYear: req.body.endYear || '',
+            party: req.body.party,
             thumbnail: req.body.thumbnail || '',
             banner: req.body.banner || '',
             snippet: req.body.snippet || ''
