@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // router
 app.use('/api/v1/presidents', presidentsRouter);
 app.use('/api/v1/transcripts', transcriptsRouter);
-app.use('api/v1/watson', watsonRouter);
+app.use('/api/v1/watson', watsonRouter);
 
 //***************** API ****************/
 
