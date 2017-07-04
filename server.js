@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path');
+//const path = require('path');
 const {DATABASE_URL, PORT} = require('./config');
 const presidentsRouter = require('./router/presidentsRouter');
 const transcriptsRouter = require('./router/transcriptsRouter');
@@ -21,7 +21,7 @@ app.use(cors());
 
 mongoose.Promise = global.Promise;
 
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
 // router
 app.use('/api/v1/presidents', presidentsRouter);
