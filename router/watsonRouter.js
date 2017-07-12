@@ -22,11 +22,14 @@ router.post('/', (req, res) => {
     };
 
     return personality_insights.profile(params, (err, response) => {
-        if (err)
-            console.error(err);
+        if (err){
+            console.log('from watson:' + err);
+            return res.status(400).send({"error": err});
+        }
+
         else{
             //let output = JSON.stringify(response, null, 2);
-            console.log(response);
+            //console.log(response);
             let personality = response.personality.map((obj) => {
                 return {
                     "name": obj.name,
