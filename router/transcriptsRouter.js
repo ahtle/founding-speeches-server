@@ -6,7 +6,7 @@ const {Transcripts} = require('../models/transcripts.model');
 
 router.use(bodyParser.json());
 
-// get specific transcripts
+// get all transcripts from a president
 router.get('/:presId', (req, res) => {
     Transcripts.find({presId: req.params.presId}).sort({date: -1}).exec().then(transcripts => {
         res.status(200).json(transcripts);
@@ -47,6 +47,16 @@ router.post('/', (req, res) => {
                 res.status(500).json({error: 'something went wrong'});
             });
     }
+});
+
+// delete transcript
+router.delete('/:transcriptId', (req, res) => {
+    Transcripts.findByIdAndRemove(req.params.transcriptId).exec().then(respond => {
+        res.status(200).json(respond);
+    }).catch(err => {
+        console.error(err);
+        res.status(500).json({error: 'something went wrong'});
+    })
 });
 
 module.exports = router;
