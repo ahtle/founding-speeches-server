@@ -52,7 +52,7 @@ router.post('/', (req, res) => {
 // delete transcript
 router.delete('/:transcriptId', (req, res) => {
     Transcripts.findByIdAndRemove(req.params.transcriptId).exec().then(respond => {
-        res.status(200).json(respond);
+        res.status(204).json(respond);
     }).catch(err => {
         console.error(err);
         res.status(500).json({error: 'something went wrong'});

@@ -7,13 +7,13 @@ const PersonalityInsightsV3 = require('watson-developer-cloud/personality-insigh
 router.use(bodyParser.json());
 
 router.post('/', (req, res) => {
-    var personality_insights = new PersonalityInsightsV3({
+    const personality_insights = new PersonalityInsightsV3({
         username: '507f3d3b-10a0-4cba-a409-423da0bf5915',
         password: '8cSh3iwYj8l1',
         version_date: '2016-10-20'
     });
 
-    var params = {
+    const params = {
         content_items: [req.body.text],
         headers: {
             'accept-language': 'en',

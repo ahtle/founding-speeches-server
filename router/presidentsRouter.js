@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 
 // post new president
 function validatePost(data){
-    const requiredFields = ['presId', 'name', 'startYear', 'party'];
+    const requiredFields = ['presId', 'name', 'startYear'];
     for(let i = 0; i < requiredFields.length; i++){
         const field = requiredFields[i];
         if(!(field in data.body)){
@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
             name: req.body.name,
             startYear: req.body.startYear,
             endYear: req.body.endYear || '',
-            party: req.body.party,
+            party: req.body.party || '',
             thumbnail: req.body.thumbnail || '',
             banner: req.body.banner || '',
             snippet: req.body.snippet || ''
@@ -74,8 +74,21 @@ router.put('/:presId', (req, res) => {
     
     Presidents.findOneAndUpdate({presId: req.params.presId}, {$set: update}, {new: true})
     .exec()
-    .then(president => res.status(200).json(president))
+    .then(president => res.status(201).json(president))
     .catch(err => res.status(500).json(err));
 });
+
+// delete president
+router.delete('/:presId', (req, res) => {
+    Presidents.findOneAndRemove({presId: req.params.presId})
+    .exec()
+    .then((deleted) => {
+        if(deleted === null){
+            res.status(400).json({message: `can't find president to delete`});
+        }
+        res.status(204).json({message: `deleted president ${req.params.presId}`});
+    })
+    .catch(err => res.status(500).json(err));
+})
 
 module.exports = router;
